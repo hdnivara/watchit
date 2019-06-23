@@ -3,10 +3,10 @@ package main
 import (
 	"fmt"
 
-	"watchit/cmd"
+	"watchit/command"
 )
 
 func main() {
-	c := cmd.Parse()
+	c := command.Parse()
 	fmt.Printf("%#v\n", c)
 }
