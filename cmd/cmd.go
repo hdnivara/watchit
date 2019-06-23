@@ -57,6 +57,24 @@ func errExit(err error) {
 	os.Exit(1)
 }
 
+func buildRegex(ext []string) string {
+	return fmt.Sprintf(".+\\.(%s)$", strings.Join(ext, "|"))
+}
+
+func new(dirs, cmds, ext []string, recur, help bool) *Command {
+	cmd := Command{
+		Dirs:      dirs,
+		Cmds:      cmds,
+		ext:       ext,
+		Recursive: recur,
+		help:      help,
+	}
+
+	cmd.Regex = buildRegex(cmd.ext)
+
+	return &cmd
+}
+
 // Parse parses and validates user-given arguments.
 func Parse() *Command {
 	var cmd Command
@@ -83,7 +101,7 @@ func Parse() *Command {
 	}
 
 	// Create regex for file extensions.
-	cmd.Regex = fmt.Sprintf(".+\\.(%s)$", strings.Join(cmd.ext, "|"))
+	cmd.Regex = buildRegex(cmd.ext)
 
 	return &cmd
 }
